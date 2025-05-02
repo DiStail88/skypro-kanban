@@ -1,9 +1,9 @@
 import './App.css'
-import Header from './components/Header.jsx';
-import PopBrowse from './components/PopBrowse.jsx';
-import PopNewCard from './components/PopNewCard.jsx';
-import Main from './components/Main.jsx';
-import PopExit from './components/PopExit.jsx';
+import Header from './components/Header/Header.jsx';
+import PopBrowse from './components/PopBrowse/PopBrowse.jsx';
+import PopNewCard from './components/PopNewCard/PopNewCard.jsx';
+import Main from './components/Main/Main.jsx';
+import PopExit from './components/PopExit/PopExit.jsx';
 
 function App() {
 

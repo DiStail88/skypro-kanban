@@ -1,5 +1,6 @@
 import React from 'react';
-import Calendar from './Calendar.jsx';
+import Calendar from '../Calendar/Calendar.jsx';
+
 
 const PopNewCard = () => {
 

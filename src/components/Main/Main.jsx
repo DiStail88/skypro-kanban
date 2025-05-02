@@ -1,5 +1,6 @@
 import React from 'react';
-import Card from './Card.jsx';
+import Card from '../Card/Card.jsx';
+
 
 const Main = () => {
 
@@ -13,7 +14,7 @@ const Main = () => {
 							<div className="column__title">
 								<p>Без статуса</p>
 							</div>
-                            <Card />
+                            <Card/>
 
 						</div>						
 						<div className="main__column">

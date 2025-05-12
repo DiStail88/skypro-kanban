@@ -21,6 +21,14 @@ button,
   outline: none;
 }
 
+.header__pop-user-set.hidden {
+  display: none;
+}
+
+.header__pop-user-set.visible {
+  display: block;
+}
+
 ul li {
   list-style: none;
 }

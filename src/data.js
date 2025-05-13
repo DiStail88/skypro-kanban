@@ -38,6 +38,46 @@ const tasks = [
     theme: 'Research',
     themeClass: '_green',
     status: 'Готово'
+  },
+  {
+    id: 6,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Research',
+    themeClass: '_green',
+    status: 'Готово'
+  },
+  {
+    id: 7,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Research',
+    themeClass: '_green',
+    status: 'Тестирование'
+  },
+  {
+    id: 8,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Copywriting',
+    themeClass: '_purple',
+    status: 'Нужно сделать'
+  },
+  {
+    id: 9,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Copywriting',
+    themeClass: '_purple',
+    status: 'Нужно сделать'
+  },
+  {
+    id: 10,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Copywriting',
+    themeClass: '_purple',
+    status: 'Нужно сделать'
   }
 ];
 

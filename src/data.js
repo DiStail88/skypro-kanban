@@ -1,23 +1,44 @@
-export const cardList = [
-{
+const tasks = [
+  {
     id: 1,
-    topic: 'Web Design',
     title: 'Название задачи',
     date: '30.10.23',
-    status: 'orange'
-},
-{
+    theme: 'Research',
+    themeClass: '_green',
+    status: 'Без статуса'
+  },
+  {
     id: 2,
-    topic: 'Research',
     title: 'Название задачи',
-    date: '30.10.22',
-    status: 'green'
-},
-{
+    date: '30.10.23',
+    theme: 'Copywriting',
+    themeClass: '_purple',
+    status: 'Нужно сделать'
+  },
+  {
     id: 3,
-    topic: 'Copywriting',
     title: 'Название задачи',
-    date: '30.10.25',
-    status: 'purple'
-}
-]
+    date: '30.10.23',
+    theme: 'Web Design',
+    themeClass: '_orange',
+    status: 'В работе'
+  },
+  {
+    id: 4,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Research',
+    themeClass: '_green',
+    status: 'Тестирование'
+  },
+  {
+    id: 5,
+    title: 'Название задачи',
+    date: '30.10.23',
+    theme: 'Research',
+    themeClass: '_green',
+    status: 'Готово'
+  }
+];
+
+export default tasks;

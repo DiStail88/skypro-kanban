@@ -15,6 +15,10 @@ a:visited {
   cursor: pointer;
 }
 
+.loading{
+  text-align: center;
+}
+
 button,
 ._btn {
   cursor: pointer;

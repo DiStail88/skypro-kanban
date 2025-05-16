@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Card from '../Card/Card.jsx';
 import tasks from '../../data.js';
+import Column from '../Column/Column.jsx';
 
 const Main = () => {
   const [loading, setLoading] = useState(true); 
@@ -28,20 +28,14 @@ const Main = () => {
       <div className="container">
         <div className="main__block">
           <div className="main__content">
-            {statuses.map((status) => (
-              <div key={status} className="main__column">
-                <div className="column__title">
-                  <p>{status}</p>
+            {statuses.map((status) => {
+              const filteredTasks = loadedTasks.filter((task) => task.status === status);
+              return (
+                <div key={status} className="main__column">
+                  <Column title={status} tasks={filteredTasks} />
                 </div>
-                <div className="cards">
-                  {loadedTasks
-                    .filter((task) => task.status === status)
-                    .map((task) => (
-                      <Card key={task.id} task={task} />
-                    ))}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

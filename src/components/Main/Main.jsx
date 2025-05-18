@@ -2,44 +2,53 @@ import React, { useState, useEffect } from 'react';
 import tasks from '../../data.js';
 import Column from '../Column/Column.jsx';
 
+import {
+  MainWrapper,
+  Container,
+  MainBlock,
+  MainContent,
+  ColumnWrapper,
+  Loading
+} from './Main.styled';
+
 const Main = () => {
-  const [loading, setLoading] = useState(true); 
-  const [loadedTasks, setLoadedTasks] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [loadedTasks, setLoadedTasks] = useState([]);
 
   const statuses = ['Без статуса', 'Нужно сделать', 'В работе', 'Тестирование', 'Готово'];
 
   useEffect(() => {
     setTimeout(() => {
-      setLoadedTasks(tasks); 
-      setLoading(false); 
-    }, 2000); 
+      setLoadedTasks(tasks);
+      setLoading(false);
+    }, 2000);
   }, []);
 
   if (loading) {
     return (
-      <div className="loading">
+      <Loading>
         <p>Идет загрузка...</p>
-      </div>
+      </Loading>
     );
   }
 
   return (
-    <main className="main">
-      <div className="container">
-        <div className="main__block">
-          <div className="main__content">
+    <MainWrapper>
+      <Container>
+        <MainBlock>
+          <MainContent>
             {statuses.map((status) => {
               const filteredTasks = loadedTasks.filter((task) => task.status === status);
               return (
-                <div key={status} className="main__column">
+                <ColumnWrapper key={status}>
                   <Column title={status} tasks={filteredTasks} />
-                </div>
+                </ColumnWrapper>
               );
             })}
-          </div>
-        </div>
-      </div>
-    </main>
+          </MainContent>
+        </MainBlock>
+      </Container>
+    </MainWrapper>
   );
 };
 

@@ -1,22 +1,26 @@
 import React from 'react';
 import Card from '../Card/Card';
+import {
+  ColumnWrapper,
+  ColumnTitle,
+  CardsContainer,
+  EmptyText
+} from './Column.styled';
 
 const Column = ({ title, tasks }) => {
   return (
-    <>
-      <div className="column__title"> 
+    <ColumnWrapper>
+      <ColumnTitle>
         <p>{title}</p>
-      </div>
-      <div className="cards">
+      </ColumnTitle>
+      <CardsContainer>
         {tasks.length > 0 ? (
-          tasks.map((task) => (
-            <Card key={task.id} task={task} />
-          ))
+          tasks.map((task) => <Card key={task.id} task={task} />)
         ) : (
-          <p className="column__empty">Нет задач</p>
+          <EmptyText>Нет задач</EmptyText>
         )}
-      </div>
-    </>
+      </CardsContainer>
+    </ColumnWrapper>
   );
 };
 

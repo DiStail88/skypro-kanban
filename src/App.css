@@ -15,10 +15,22 @@ a:visited {
   cursor: pointer;
 }
 
+.loading{
+  text-align: center;
+}
+
 button,
 ._btn {
   cursor: pointer;
   outline: none;
+}
+
+.header__pop-user-set.hidden {
+  display: none;
+}
+
+.header__pop-user-set.visible {
+  display: block;
 }
 
 ul li {
@@ -804,6 +816,7 @@ body {
 .main__content {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
 }
 .main__column {
   width: 20%;

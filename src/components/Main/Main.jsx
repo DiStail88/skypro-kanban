@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import tasks from '../../data.js';
 import Column from '../Column/Column.jsx';
-
-import {
-  MainWrapper,
-  Container,
-  MainBlock,
-  MainContent,
-  ColumnWrapper,
-  Loading
-} from './Main.styled';
+import { LoadingWrapper, MainWrapper, Container, MainBlock, MainContent, MainColumn } from './Main.styled.js';
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
@@ -26,9 +18,9 @@ const Main = () => {
 
   if (loading) {
     return (
-      <Loading>
+      <LoadingWrapper>
         <p>Идет загрузка...</p>
-      </Loading>
+      </LoadingWrapper>
     );
   }
 
@@ -40,9 +32,9 @@ const Main = () => {
             {statuses.map((status) => {
               const filteredTasks = loadedTasks.filter((task) => task.status === status);
               return (
-                <ColumnWrapper key={status}>
+                <MainColumn key={status}>
                   <Column title={status} tasks={filteredTasks} />
-                </ColumnWrapper>
+                </MainColumn>
               );
             })}
           </MainContent>

@@ -1,117 +1,193 @@
 import styled from 'styled-components';
 
-export const HeaderWrapper = styled.header`
-  background-color: #fff;
-  padding: 10px 0;
-  border-bottom: 1px solid #e6e6e6;
+export const StyledHeader = styled.header`
+  width: 100%;
+  margin: 0 auto;
+  background-color: #FFFFFF;
 `;
 
 export const Container = styled.div`
+  max-width: 1260px;
   width: 100%;
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 30px;
 `;
 
 export const HeaderBlock = styled.div`
+  height: 70px;
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  top: 0;
+  left: 0;
+  padding: 0 10px;
 `;
 
 export const Logo = styled.div`
   img {
-    height: 40px;
-  }
-
-  &._dark {
-    display: none;
+    width: 85px;
+    display: block;
+    filter: ${({ $theme }) => ($theme === 'dark' ? 'brightness(0.8)' : 'none')};
   }
 `;
 
 export const Nav = styled.nav`
+  max-width: 290px;
+  padding: 0;
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: center;
 `;
 
 export const MainButton = styled.button`
-  background-color: #5570f1;
-  color: white;
+  width: 178px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #565EEF;
+  color: #FFFFFF;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 500;
+  margin-right: 20px;
 
-  &:hover {
-    background-color: #445ace;
+  &._hover01:hover {
+  background-color: #33399b
   }
 
   a {
-    color: white;
-    text-decoration: none;
+  color: #FFFFFF;
   }
 `;
 
-export const UserName = styled.a`
-  color: #3b3b3b;
-  cursor: pointer;
-  font-weight: 500;
+export const UserLink = styled.a`
+  height: 20px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 20px;
+  color: #565EEF;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
-    text-decoration: underline;
+    color: #33399b;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 1px;
+    border-left: 1.9px solid #565EEF;
+    border-bottom: 1.9px solid #565EEF;
+    transform: rotate(-45deg);
+    margin: -6px 0 0 5px;
+    padding: 0;
+  }
+
+  &:hover::after {
+    border-left-color: #33399b;
+    border-bottom-color: #33399b;
   }
 `;
 
-export const Popup = styled.div`
+export const UserPopup = styled.div`
   position: absolute;
-  top: 60px;
-  right: 15px;
-  background-color: #fff;
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
-  display: ${({ visible }) => (visible ? 'block' : 'none')};
-  z-index: 10;
+  top: 61px;
+  right: 0;
+  width: 213px;
+  height: 205px;
+  border-radius: 10px;
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  background: #fff;
+  box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
+  padding: 34px;
+  text-align: center;
+  z-index: 2;
+  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
 `;
 
-export const PopupName = styled.p`
-  font-weight: bold;
+export const UserName = styled.p`
+  color: #000;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: -0.14px;
   margin-bottom: 4px;
 `;
 
-export const PopupMail = styled.p`
-  color: #888;
+export const UserEmail = styled.p`
+  color: #94A6BE;
   font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -0.14px;
   margin-bottom: 10px;
 `;
 
-export const PopupTheme = styled.div`
+export const ThemeToggle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 
   p {
-    margin: 0;
+    color: #000;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: -0.14px;
+  }
+
+  input[type="checkbox"] {
+    position: relative;
+    width: 24px;
+    height: 13px;
+    border-radius: 100px;
+    background: #EAEEF6;
+    outline: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background-color: #94A6BE;
+      transition: 0.5s;
+    }
+
+    &:checked::before {
+      left: 12px;
+    }
   }
 `;
 
-export const LogoutButton = styled.button`
+export const ExitButton = styled.button`
+  width: 72px;
+  height: 30px;
   background: transparent;
-  border: none;
-  color: #5570f1;
-  cursor: pointer;
+  color: #565EEF;
+  border-radius: 4px;
+  border: 1px solid #565EEF;
+
+  &._hover03:hover {
+  background-color: #33399b;
+  color: #FFFFFF;
+  }
 
   a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  &:hover {
-    text-decoration: underline;
+  color: #565EEF;
   }
 `;
+

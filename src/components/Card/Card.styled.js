@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const cardAnimation = keyframes`
   0% {
@@ -11,11 +11,10 @@ const cardAnimation = keyframes`
   }
 `;
 
-
 const themeColors = {
-  '_green': { bg: '#ddffdd', color: 'green' },
-  '_purple': { bg: '#e6ddff', color: 'purple' },
-  '_orange': { bg: '#ffe5cc', color: 'orange' },
+  _green: { bg: "#ddffdd", color: "green" },
+  _purple: { bg: "#e6ddff", color: "purple" },
+  _orange: { bg: "#ffe5cc", color: "orange" },
 };
 
 export const Cards = styled.div`
@@ -32,7 +31,7 @@ export const CardsItem = styled.div`
 export const CardsCard = styled.div`
   width: 220px;
   height: 130px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -57,7 +56,7 @@ export const CardTheme = styled.div`
   border-radius: 18px;
 
   background-color: ${({ $themeClass }) =>
-    themeColors[$themeClass]?.bg || 'transparent'};
+    themeColors[$themeClass]?.bg || "transparent"};
 `;
 
 export const CardThemeText = styled.p`
@@ -65,8 +64,7 @@ export const CardThemeText = styled.p`
   font-weight: 600;
   line-height: 10px;
 
-  color: ${({ $themeClass }) =>
-    themeColors[$themeClass]?.color || '#000000'};
+  color: ${({ $themeClass }) => themeColors[$themeClass]?.color || "#000000"};
 `;
 
 export const CardButton = styled.div`
@@ -82,7 +80,7 @@ export const CardButtonLine = styled.div`
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background-color: #94A6BE;
+  background-color: #94a6be;
 `;
 
 export const CardContent = styled.div`
@@ -115,6 +113,6 @@ export const CardDateText = styled.p`
   margin-left: 6px;
   font-size: 10px;
   line-height: 13px;
-  color: #94A6BE;
+  color: #94a6be;
   letter-spacing: 0.2px;
 `;

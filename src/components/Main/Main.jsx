@@ -1,13 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import tasks from '../../data.js';
-import Column from '../Column/Column.jsx';
-import { LoadingWrapper, MainWrapper, Container, MainBlock, MainContent, MainColumn } from './Main.styled.js';
+import React, { useState, useEffect } from "react";
+import tasks from "../../data.js";
+import Column from "../Column/Column.jsx";
+import {
+  LoadingWrapper,
+  MainWrapper,
+  Container,
+  MainBlock,
+  MainContent,
+  MainColumn,
+} from "./Main.styled.js";
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
   const [loadedTasks, setLoadedTasks] = useState([]);
 
-  const statuses = ['Без статуса', 'Нужно сделать', 'В работе', 'Тестирование', 'Готово'];
+  const statuses = [
+    "Без статуса",
+    "Нужно сделать",
+    "В работе",
+    "Тестирование",
+    "Готово",
+  ];
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,7 +43,9 @@ const Main = () => {
         <MainBlock>
           <MainContent>
             {statuses.map((status) => {
-              const filteredTasks = loadedTasks.filter((task) => task.status === status);
+              const filteredTasks = loadedTasks.filter(
+                (task) => task.status === status
+              );
               return (
                 <MainColumn key={status}>
                   <Column title={status} tasks={filteredTasks} />

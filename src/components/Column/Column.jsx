@@ -1,6 +1,6 @@
-import React from 'react';
-import Card from '../Card/Card';
-import { ColumnTitle, CardsWrapper, EmptyMessage } from './Column.styled.js';
+import React from "react";
+import Card from "../Card/Card";
+import { ColumnTitle, CardsWrapper, EmptyMessage } from "./Column.styled.js";
 
 const Column = ({ title, tasks }) => {
   return (

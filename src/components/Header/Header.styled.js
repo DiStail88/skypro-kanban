@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledHeader = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 `;
 
 export const Container = styled.div`
@@ -29,7 +29,7 @@ export const Logo = styled.div`
   img {
     width: 85px;
     display: block;
-    filter: ${({ $theme }) => ($theme === 'dark' ? 'brightness(0.8)' : 'none')};
+    filter: ${({ $theme }) => ($theme === "dark" ? "brightness(0.8)" : "none")};
   }
 `;
 
@@ -45,8 +45,8 @@ export const MainButton = styled.button`
   width: 178px;
   height: 30px;
   border-radius: 4px;
-  background-color: #565EEF;
-  color: #FFFFFF;
+  background-color: #565eef;
+  color: #ffffff;
   border: none;
   font-size: 14px;
   line-height: 1;
@@ -54,11 +54,11 @@ export const MainButton = styled.button`
   margin-right: 20px;
 
   &._hover01:hover {
-  background-color: #33399b
+    background-color: #33399b;
   }
 
   a {
-  color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
@@ -70,7 +70,7 @@ export const UserLink = styled.a`
   justify-content: center;
   font-size: 14px;
   line-height: 20px;
-  color: #565EEF;
+  color: #565eef;
   text-decoration: none;
   cursor: pointer;
 
@@ -84,8 +84,8 @@ export const UserLink = styled.a`
     width: 6px;
     height: 6px;
     border-radius: 1px;
-    border-left: 1.9px solid #565EEF;
-    border-bottom: 1.9px solid #565EEF;
+    border-left: 1.9px solid #565eef;
+    border-bottom: 1.9px solid #565eef;
     transform: rotate(-45deg);
     margin: -6px 0 0 5px;
     padding: 0;
@@ -110,7 +110,7 @@ export const UserPopup = styled.div`
   padding: 34px;
   text-align: center;
   z-index: 2;
-  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
+  display: ${({ $visible }) => ($visible ? "block" : "none")};
 `;
 
 export const UserName = styled.p`
@@ -123,7 +123,7 @@ export const UserName = styled.p`
 `;
 
 export const UserEmail = styled.p`
-  color: #94A6BE;
+  color: #94a6be;
   font-size: 14px;
   line-height: 21px;
   letter-spacing: -0.14px;
@@ -148,11 +148,11 @@ export const ThemeToggle = styled.div`
     width: 24px;
     height: 13px;
     border-radius: 100px;
-    background: #EAEEF6;
+    background: #eaeef6;
     outline: none;
     -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     cursor: pointer;
 
     &::before {
@@ -163,7 +163,7 @@ export const ThemeToggle = styled.div`
       width: 11px;
       height: 11px;
       border-radius: 50%;
-      background-color: #94A6BE;
+      background-color: #94a6be;
       transition: 0.5s;
     }
 
@@ -177,17 +177,16 @@ export const ExitButton = styled.button`
   width: 72px;
   height: 30px;
   background: transparent;
-  color: #565EEF;
+  color: #565eef;
   border-radius: 4px;
-  border: 1px solid #565EEF;
+  border: 1px solid #565eef;
 
   &._hover03:hover {
-  background-color: #33399b;
-  color: #FFFFFF;
+    background-color: #33399b;
+    color: #ffffff;
   }
 
   a {
-  color: #565EEF;
+    color: #565eef;
   }
 `;
-

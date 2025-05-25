@@ -4,11 +4,13 @@ import PopBrowse from './components/PopBrowse/PopBrowse.jsx';
 import PopNewCard from './components/PopNewCard/PopNewCard.jsx';
 import Main from './components/Main/Main.jsx';
 import PopExit from './components/PopExit/PopExit.jsx';
+import GlobalStyle from './GlobalStyle.js';
 
 function App() {
 
   return (
     <>
+      <GlobalStyle />
       <div className="wrapper">
 		
 			<PopExit/>

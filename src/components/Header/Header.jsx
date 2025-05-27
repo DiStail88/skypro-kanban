@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom"
 
 import {
   StyledHeader,
@@ -77,7 +78,7 @@ const Header = () => {
                 <input type="checkbox" name="checkbox" />
               </ThemeToggle>
               <ExitButton className="_hover03">
-                <a href="#popExit">Выйти</a>
+                <Link to="/exit">Выйти</Link>
               </ExitButton>
             </UserPopup>
           </Nav>

@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom"
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LoginBlock,
   LoginHead,
@@ -9,26 +10,57 @@ import {
   LoginLink,
   LoginBackground
 } from "./Login.styled.js";
+import { signIn } from "../../services/api.js"; 
 
-const Login = ({setIsAuth}) => {
+const Login = ({ setIsAuth }) => {
+  const [form, setForm] = useState({ login: '', password: '' });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const handleLogin = (e) => {
-        e.preventDefault();
-        setIsAuth(true);
-        navigate("/");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const user = await signIn(form);
+      localStorage.setItem('token', user.token);
+      setIsAuth(true);
+      navigate("/");
+      setError('');
+    } catch (err) {
+      setError(err.message);
+    }
   };
+
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
     <LoginBackground>
       <LoginBlock>
         <LoginHead>
           <h1>Вход</h1>
         </LoginHead>
-        <LoginForm>
+        <LoginForm onSubmit={handleLogin}>
           <LoginInputBlock>
-            <LoginInput type="email" placeholder="Эл. почта" />
-            <LoginInput type="password" placeholder="Пароль" />
+            <LoginInput
+              type="text"
+              name="login"
+              placeholder="Логин"
+              value={form.login}
+              onChange={handleChange}
+              required
+            />
+            <LoginInput
+              type="password"
+              name="password"
+              placeholder="Пароль"
+              value={form.password}
+              onChange={handleChange}
+              required
+            />
           </LoginInputBlock>
-          <LoginButton onClick={handleLogin}>Войти</LoginButton>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          <LoginButton type="submit">Войти</LoginButton>
           <LoginLink>
             <p>Нужно зарегистрироваться?</p>
             <Link to='/register'>Регистрируйтесь здесь</Link>

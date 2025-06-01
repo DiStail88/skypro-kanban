@@ -1,4 +1,5 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   CardsItem,
   CardsCard,
@@ -14,29 +15,31 @@ import {
 } from "./Card.styled.js";
 
 const Card = ({ task }) => {
+  const navigate = useNavigate();
+
   if (!task) return null;
 
+  const handleCard = (e) => {
+    e.preventDefault();
+    navigate(`/card/${task.id}`);
+  };
   return (
     <CardsItem>
-      <CardsCard>
+      <CardsCard onClick={handleCard}>
         <CardGroup>
           <CardTheme $themeClass={task.themeClass}>
             <CardThemeText $themeClass={task.themeClass}>
               {task.theme}
             </CardThemeText>
           </CardTheme>
-          <a href="#popBrowse" target="_self" rel="noreferrer">
-            <CardButton>
-              <CardButtonLine />
-              <CardButtonLine />
-              <CardButtonLine />
-            </CardButton>
-          </a>
+          <CardButton>
+            <CardButtonLine />
+            <CardButtonLine />
+            <CardButtonLine />
+          </CardButton>
         </CardGroup>
         <CardContent>
-          <a href="" target="_blank" rel="noreferrer">
             <CardTitle>{task.title}</CardTitle>
-          </a>
           <CardDate>
             <svg
               width="13"

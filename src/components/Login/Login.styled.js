@@ -137,23 +137,22 @@ export const LoginHead = styled.div`
 `;
 
 export const LoginBlock = styled.div`
-    width: 368px;
-    height: 329px;
+  width: 368px;
+  height: ${({ $hasError }) => ($hasError ? "390px" : "329px")};
 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 50px 60px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10;
-    padding: 50px 60px 50px 60px;
+  box-sizing: border-box;
+  border: 0.7px solid rgb(212, 219, 229);
+  border-radius: 10px;
 
-    box-sizing: border-box;
-    border: 0.7px solid rgb(212, 219, 229);
-    border-radius: 10px;
-
-    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-    background: rgb(255, 255, 255);
-    z-index: 100;
-
+  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+  background: rgb(255, 255, 255);
+  z-index: 100;
+  transition: height 0.3s ease;
 `;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // добавили useNavigate
 import {
   RegisterBlock,
   RegisterHead,
@@ -15,13 +15,14 @@ import { signUp } from "../../services/api.js";
 const Register = () => {
   const [form, setForm] = useState({ login: '', name: '', password: '' });
   const [error, setError] = useState('');
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await signUp(form);
-      alert('Регистрация прошла успешно!');
       setError('');
+      navigate("/login");
     } catch (err) {
       setError(err.message);
     }
@@ -33,7 +34,7 @@ const Register = () => {
 
   return (
     <RegisterBackground>
-      <RegisterBlock>
+      <RegisterBlock $hasError={!!error}>
         <RegisterHead>
           <h1>Регистрация</h1>
         </RegisterHead>

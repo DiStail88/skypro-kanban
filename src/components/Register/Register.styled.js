@@ -138,20 +138,21 @@ export const RegisterHead = styled.div`
 `;
 
 export const RegisterBlock = styled.div`
-    width: 368px;
-    height: 345px;
+  width: 368px;
+  height: ${({ $hasError }) => ($hasError ? "406px" : "345px")};
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 10;
-    padding: 50px 60px 50px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 50px 60px;
 
-    box-sizing: border-box;
-    border: 0.7px solid rgb(212, 219, 229);
-    border-radius: 10px;
+  box-sizing: border-box;
+  border: 0.7px solid rgb(212, 219, 229);
+  border-radius: 10px;
 
-    box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-    background: rgb(255, 255, 255);
+  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+  background: rgb(255, 255, 255);
+  transition: height 0.3s ease;
 `;

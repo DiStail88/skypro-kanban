@@ -10,7 +10,7 @@ import {
   LoginLink,
   LoginBackground
 } from "./Login.styled.js";
-import { signIn } from "../../services/api.js"; 
+import { signIn, fetchTasks } from "../../services/api.js"; 
 
 const Login = ({ setIsAuth }) => {
   const [form, setForm] = useState({ login: '', password: '' });
@@ -21,10 +21,18 @@ const Login = ({ setIsAuth }) => {
     e.preventDefault();
     try {
       const user = await signIn(form);
-      localStorage.setItem('token', user.token);
+      const token = user.token;
+
+      localStorage.setItem('token', token);
       setIsAuth(true);
-      navigate("/");
+
+
+      const tasks = await fetchTasks(token);
+      console.log("Задачи пользователя:", tasks);
+
+
       setError('');
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
@@ -36,7 +44,7 @@ const Login = ({ setIsAuth }) => {
 
   return (
     <LoginBackground>
-      <LoginBlock>
+      <LoginBlock $hasError={!!error}>
         <LoginHead>
           <h1>Вход</h1>
         </LoginHead>

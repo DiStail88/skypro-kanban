@@ -9,6 +9,8 @@ import {
   MainColumn,
 } from "./Main.styled.js";
 import { fetchTasks } from "../../services/api.js";
+import { themeClassMap } from "../../utils/themeClassMap.js";
+import { formatDate } from "../../utils/formatDate.js";
 
 const Main = () => {
   const [loading, setLoading] = useState(true);
@@ -32,16 +34,22 @@ const Main = () => {
       return;
     }
 
-    fetchTasks(token)
-      .then((tasks) => {
-        setLoadedTasks(tasks);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+  fetchTasks(token)
+    .then((tasks) => {
+      const mappedTasks = tasks.map((task) => ({
+        ...task,
+        theme: task.topic || "Research", 
+        themeClass: themeClassMap[task.topic] || themeClassMap["Default"],
+        date: formatDate(task.date),
+      }));
+      setLoadedTasks(mappedTasks);
+      setLoading(false);
+    })
+    .catch((err) => {
+      setError(err.message);
+      setLoading(false);
+    });
+}, []);
 
   if (loading) {
     return (

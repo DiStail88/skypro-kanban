@@ -12,24 +12,30 @@ function AppRoutes() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timeout);
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuth(true);
+    }
+    setLoading(false); 
   }, []);
+
+  if (loading) {
+    return <div>Загрузка...</div>; 
+  }
 
   return (
     <Routes>
       <Route element={<PrivateRoute isAuth={isAuth} />}>
         <Route path="/" element={<HomePage loading={loading} />}>
-          <Route path="/exit" element={<PopExitPage setIsAuth={setIsAuth}/>} />
+          <Route path="/exit" element={<PopExitPage setIsAuth={setIsAuth} />} />
           <Route path="/card/:id" element={<PopBrowsePage />} />
         </Route>
       </Route>
 
-      <Route path="/login" element={<LoginPage setIsAuth={setIsAuth}/>} />
+      <Route path="/login" element={<LoginPage setIsAuth={setIsAuth} />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/*" element={<h1>Страница не найдена</h1>} />
     </Routes>
   );
 }
-
 export default AppRoutes;

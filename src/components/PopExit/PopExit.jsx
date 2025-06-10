@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   PopExitWrapper,
   PopExitContainer,
@@ -9,13 +9,17 @@ import {
   PopExitNo,
   PopExitForm,
 } from "./PopExit.styled.js";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext.js";
 
-const PopExit = ({ setIsAuth }) => {
+
+const PopExit = () => {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
+
   const handleExitYes = (e) => {
     e.preventDefault();
-    localStorage.removeItem("token"); 
-    setIsAuth(false);
+    logout();
     navigate("/login");
   };
 

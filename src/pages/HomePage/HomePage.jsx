@@ -1,10 +1,10 @@
 import Home from "../../components/Home/Home"
 import { Outlet } from "react-router-dom";
 
-const HomePage = ({ loading }) => {
+const HomePage = () => {
   return (
   <>
-  <Home loading={loading} />
+  <Home />
   <Outlet />
   </>
   );

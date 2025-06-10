@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   LoginBlock,
@@ -11,32 +11,26 @@ import {
   LoginBackground
 } from "./Login.styled.js";
 import { signIn, fetchTasks } from "../../services/api.js"; 
+import { AuthContext } from "../../context/AuthContext.js";
 
-const Login = ({ setIsAuth }) => {
+const Login = () => {
   const [form, setForm] = useState({ login: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const {login} = useContext(AuthContext)
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const user = await signIn(form);
-      const token = user.token;
-
-      localStorage.setItem('token', token);
-      setIsAuth(true);
-
-
-      const tasks = await fetchTasks(token);
-      console.log("Задачи пользователя:", tasks);
-
-
-      setError('');
-      navigate("/");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const user = await signIn(form);
+    login(user);
+    await fetchTasks(user.token);
+    setError('');
+    navigate('/');
+  } catch (err) {
+    setError(err.message);
+  }
+};
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));

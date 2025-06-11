@@ -1,82 +1,144 @@
-import React from 'react';
+import React, { useState } from "react";
 
-const Calendar = () => {
+const DAYS_OF_WEEK = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
-    return (
-        <div className="pop-new-card__calendar calendar">
-        <p className="calendar__ttl subttl">Даты</p>									
-        <div className="calendar__block">
-            <div className="calendar__nav">
-                <div className="calendar__month">Сентябрь 2023</div>
-                <div className="nav__actions">
-                    <div className="nav__action" data-action="prev">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewBox="0 0 6 11">
-                            <path d="M5.72945 1.95273C6.09018 1.62041 6.09018 1.0833 5.72945 0.750969C5.36622 0.416344 4.7754 0.416344 4.41218 0.750969L0.528487 4.32883C-0.176162 4.97799 -0.176162 6.02201 0.528487 6.67117L4.41217 10.249C4.7754 10.5837 5.36622 10.5837 5.72945 10.249C6.09018 9.9167 6.09018 9.37959 5.72945 9.04727L1.87897 5.5L5.72945 1.95273Z" />
-                        </svg>
-                    </div>
-                    <div className="nav__action" data-action="next">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="6" height="11" viewBox="0 0 6 11">
-                            <path d="M0.27055 9.04727C-0.0901833 9.37959 -0.0901832 9.9167 0.27055 10.249C0.633779 10.5837 1.2246 10.5837 1.58783 10.249L5.47151 6.67117C6.17616 6.02201 6.17616 4.97799 5.47151 4.32883L1.58782 0.75097C1.2246 0.416344 0.633778 0.416344 0.270549 0.75097C-0.0901831 1.0833 -0.090184 1.62041 0.270549 1.95273L4.12103 5.5L0.27055 9.04727Z" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div className="calendar__content">
-                <div className="calendar__days-names">
-                    <div className="calendar__day-name">пн</div>
-                    <div className="calendar__day-name">вт</div>
-                    <div className="calendar__day-name">ср</div>
-                    <div className="calendar__day-name">чт</div>
-                    <div className="calendar__day-name">пт</div>
-                    <div className="calendar__day-name -weekend-">сб</div>
-                    <div className="calendar__day-name -weekend-">вс</div>
-                </div>
-                <div className="calendar__cells">
-                    <div className="calendar__cell _other-month">28</div>
-                    <div className="calendar__cell _other-month">29</div>
-                    <div className="calendar__cell _other-month">30</div>
-                    <div className="calendar__cell _cell-day">31</div>
-                    <div className="calendar__cell _cell-day">1</div>
-                    <div className="calendar__cell _cell-day _weekend">2</div>
-                    <div className="calendar__cell _cell-day _weekend">3</div>
-                    <div className="calendar__cell _cell-day">4</div>
-                    <div className="calendar__cell _cell-day">5</div>
-                    <div className="calendar__cell _cell-day ">6</div>
-                    <div className="calendar__cell _cell-day">7</div>
-                    <div className="calendar__cell _cell-day _current">8</div>
-                    <div className="calendar__cell _cell-day _weekend">9</div>
-                    <div className="calendar__cell _cell-day _weekend">10</div>
-                    <div className="calendar__cell _cell-day">11</div>
-                    <div className="calendar__cell _cell-day">12</div>
-                    <div className="calendar__cell _cell-day">13</div>
-                    <div className="calendar__cell _cell-day">14</div>
-                    <div className="calendar__cell _cell-day">15</div>
-                    <div className="calendar__cell _cell-day _weekend">16</div>
-                    <div className="calendar__cell _cell-day _weekend">17</div>
-                    <div className="calendar__cell _cell-day">18</div>
-                    <div className="calendar__cell _cell-day">19</div>
-                    <div className="calendar__cell _cell-day">20</div>
-                    <div className="calendar__cell _cell-day">21</div>
-                    <div className="calendar__cell _cell-day">22</div>
-                    <div className="calendar__cell _cell-day _weekend">23</div>
-                    <div className="calendar__cell _cell-day _weekend">24</div>
-                    <div className="calendar__cell _cell-day">25</div>
-                    <div className="calendar__cell _cell-day">26</div>
-                    <div className="calendar__cell _cell-day">27</div>
-                    <div className="calendar__cell _cell-day">28</div>
-                    <div className="calendar__cell _cell-day">29</div>
-                    <div className="calendar__cell _cell-day _weekend">30</div>
-                    <div className="calendar__cell _other-month _weekend">1</div>
-                </div>
-            </div>
-            
-            <input type="hidden" id="datepick_value" value="08.09.2023"></input>
-            <div className="calendar__period">
-                <p className="calendar__p date-end">Выберите срок исполнения <span className="date-control"></span>.</p>
-            </div>
-        </div>
-    </div>
+const Calendar = ({ onSelectDate }) => {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const firstDayOfWeek = new Date(year, month, 1).getDay();
+  const startDayIndex = (firstDayOfWeek + 6) % 7;
+
+  const today = new Date();
+  const isToday = (day) =>
+    day === today.getDate() &&
+    month === today.getMonth() &&
+    year === today.getFullYear();
+
+  const handleClick = (day) => {
+    const date = new Date(year, month, day);
+    const isoDate = date.toISOString();
+    setSelectedDate(date);
+    onSelectDate?.(isoDate);
+  };
+
+  const cells = [];
+
+  for (let i = 0; i < startDayIndex; i++) {
+    cells.push(
+      <div key={"empty-" + i} className="calendar__cell _cell-empty"></div>
     );
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const isSelected =
+      selectedDate &&
+      selectedDate.getDate() === day &&
+      selectedDate.getMonth() === month &&
+      selectedDate.getFullYear() === year;
+
+    cells.push(
+      <div
+        key={day}
+        className={`calendar__cell _cell-day 
+  ${isToday(day) ? "_today" : ""} 
+  ${isSelected ? "calendar__cell--active" : ""}`}
+        onClick={() => handleClick(day)}
+      >
+        {day}
+      </div>
+    );
+  }
+
+  const goPrevMonth = () => {
+    setCurrentDate(new Date(year, month - 1, 1));
+  };
+
+  const goNextMonth = () => {
+    setCurrentDate(new Date(year, month + 1, 1));
+  };
+
+  const formatDate = (date) => {
+    const d = date.getDate().toString().padStart(2, "0");
+    const m = (date.getMonth() + 1).toString().padStart(2, "0");
+    const y = date.getFullYear();
+    return `${d}.${m}.${y}`;
+  };
+
+  return (
+    <div className="calendar">
+      <h3 className="calendar__title">Даты</h3>
+
+      <div className="calendar__header">
+        <div className="calendar__month-year">
+          {(() => {
+            const localeString = currentDate.toLocaleString("ru-RU", {
+              month: "long",
+              year: "numeric",
+            });
+            return localeString.charAt(0).toUpperCase() + localeString.slice(1);
+          })()}
+        </div>
+        <div className="calendar__block-button">
+          <button className="calendar__arrow-left" onClick={goPrevMonth}>
+            <svg
+              width="6"
+              height="10"
+              viewBox="0 0 6 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.72 1.45C6.09 1.12 6.09 0.58 5.72 0.25C5.36 -0.09 4.77 -0.09 4.41 0.25L0.52 3.82C-0.18 4.47 -0.18 5.52 0.52 6.17L4.41 9.74C4.77 10.08 5.36 10.08 5.72 9.74C6.09 9.41 6.09 8.87 5.72 8.54L1.87 5L5.72 1.45Z"
+                fill="#94A6BE"
+              />
+            </svg>
+          </button>
+
+          <button className="calendar__arrow-right" onClick={goNextMonth}>
+            <svg
+              width="6"
+              height="10"
+              viewBox="0 0 6 10"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.27 8.54C-0.1 8.87 -0.1 9.41 0.27 9.74C0.63 10.08 1.22 10.08 1.58 9.74L5.47 6.17C6.17 5.52 6.17 4.47 5.47 3.82L1.58 0.25C1.22 -0.09 0.63 -0.09 0.27 0.25C-0.1 0.58 -0.1 1.12 0.27 1.45L4.12 5L0.27 8.54Z"
+                fill="#94A6BE"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="calendar__days-of-week">
+        {DAYS_OF_WEEK.map((day) => (
+          <div key={day} className="calendar__cell _cell-weekday">
+            {day}
+          </div>
+        ))}
+      </div>
+
+      <div className="calendar__cells">{cells}</div>
+
+      <div className="calendar__footer">
+        {selectedDate ? (
+          <>
+            Срок исполнения:{" "}
+            <span style={{ color: "black", paddingLeft:"2px" }}>{formatDate(selectedDate)}</span>
+          </>
+        ) : (
+          "Выберите срок исполнения."
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Calendar;

@@ -1,66 +1,150 @@
-import {
-    PopBrowseWrapper,
-    PopBrowseContainer,
-    PopBrowseBlock,
-    PopBrowseContent,
-    PopBrowseTopBlock,
-    PopBrowseTtl,
-    PopBrowseStatus,
-    StatusP,
-    StatusThemes,
-    PopBrowseWrap,
-    PopBrowseForm,
-    FormBrowseBlock,
-    ThemeDownCategories,
-    CategoriesP,
-    PopBrowseBtn,
-    BtnGroup,
-    BtnBrowseEdit,
-    BtnBrowseDelete,
-    BtnBrowseClose
-} from "./PopBrowse.styled.js";
+import React, { useState, useEffect, useContext } from "react";
+import Calendar from "../Calendar/Calendar.jsx";
 
-const PopBrowse = ({ task, onClose }) => {
+import {
+  PopBrowseWrapper,
+  PopBrowseContainer,
+  PopBrowseBlock,
+  PopBrowseContent,
+  PopBrowseTopBlock,
+  PopBrowseTtl,
+  PopBrowseStatus,
+  StatusP,
+  StatusThemes,
+  PopBrowseWrap,
+  PopBrowseForm,
+  FormBrowseBlock,
+  ThemeDownCategories,
+  CategoriesP,
+  PopBrowseBtn,
+  BtnGroup,
+  BtnBrowseEdit,
+  BtnBrowseDelete,
+  BtnBrowseClose,
+} from "./PopBrowse.styled.js";
+import { TaskContext } from "../../context/TaskContext.js";
+
+const statuses = [
+  "Без статуса",
+  "Нужно сделать",
+  "В работе",
+  "Тестирование",
+  "Готово",
+];
+
+const PopBrowse = ({ task, onClose, onDelete }) => {
+  const { updateTask } = useContext(TaskContext);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [status, setStatus] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  useEffect(() => {
+    if (task) {
+      setTitle(task.title);
+      setDescription(task.description || "");
+      setStatus(task.status || "Без статуса");
+      setSelectedDate(task.date ? new Date(task.date) : null);
+      setIsEditing(false);
+    }
+  }, [task]);
+
   if (!task) return null;
 
-  const statuses = [
-    "Без статуса",
-    "Нужно сделать",
-    "В работе",
-    "Тестирование",
-    "Готово",
-  ];
+  const handleSave = () => {
+    const updatedTask = {
+      ...task,
+      title,
+      description,
+      status,
+      date: selectedDate ? selectedDate.toISOString() : null,
+    };
+    updateTask(task._id, updatedTask);
+    setIsEditing(false);
+  };
 
   return (
     <PopBrowseWrapper className="pop-browse" id="popBrowse">
       <PopBrowseContainer className="pop-browse__container">
         <PopBrowseBlock className="pop-browse__block">
           <PopBrowseContent className="pop-browse__content">
-            <PopBrowseTopBlock className="pop-browse__top-block">
-              <PopBrowseTtl className="pop-browse__ttl">{task.title}</PopBrowseTtl>
+            <PopBrowseTopBlock
+              className="pop-browse__top-block"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              {isEditing ? (
+                <input
+                  className="popbrowse__input-title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  autoFocus
+                  style={{
+                    flex: 1,
+                    marginRight: "15px",
+                    border: "none",
+                    outline: "none",
+                    fontSize: "20px",
+                    fontWeight: "700",
+                  }}
+                />
+              ) : (
+                <PopBrowseTtl className="pop-browse__ttl" style={{ flex: 1 }}>
+                  {title}
+                </PopBrowseTtl>
+              )}
+
               <div
                 className={`categories__theme theme-top ${task.themeClass} _active-category`}
+                style={{ opacity: 1, whiteSpace: "nowrap" }}
               >
-                <p className={task.themeClass}>{task.theme}</p>
+                <p className={task.themeClass} style={{ margin: 0 }}>
+                  {task.theme}
+                </p>
               </div>
             </PopBrowseTopBlock>
 
             <PopBrowseStatus className="pop-browse__status status">
               <StatusP className="status__p subttl">Статус</StatusP>
-              <StatusThemes className="status__themes">
-                {statuses.map((status) => (
-                  <div
-                    key={status}
-                    className={`status__theme ${
-                      task.status === status ? "_gray" : "_hide"
-                    }`}
-                  >
-                    <p className={task.status === status ? "_gray" : ""}>
-                      {status}
-                    </p>
-                  </div>
-                ))}
-              </StatusThemes>
+              {isEditing ? (
+                <StatusThemes className="status__themes">
+                  {statuses.map((s) => (
+                    <div
+                      key={s}
+                      className={`status__theme ${status === s ? "_gray" : ""}`}
+                      onClick={() => setStatus(s)}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor: status === s ? "#94a6be" : "#fff",
+                        color: status === s ? "#fff" : "#94a6be",
+                      }}
+                    >
+                      <p
+                        className={status === s ? "_gray" : ""}
+                        style={{ margin: 0 }}
+                      >
+                        {s}
+                      </p>
+                    </div>
+                  ))}
+                </StatusThemes>
+              ) : (
+                <StatusThemes className="status__themes">
+                  {statuses.map((s) => (
+                    <div
+                      key={s}
+                      className={`status__theme ${status === s ? "_gray" : "_hide"}`}
+                    >
+                      <p className={status === s ? "_gray" : ""}>{s}</p>
+                    </div>
+                  ))}
+                </StatusThemes>
+              )}
             </PopBrowseStatus>
 
             <PopBrowseWrap className="pop-browse__wrap">
@@ -77,18 +161,19 @@ const PopBrowse = ({ task, onClose }) => {
                     className="form-browse__area"
                     name="text"
                     id="textArea01"
-                    readOnly
+                    readOnly={!isEditing}
                     placeholder="Введите описание задачи..."
-                    value={task.description || ""}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                   ></textarea>
                 </FormBrowseBlock>
               </PopBrowseForm>
 
               <div className="calendar__period">
-                <p className="calendar__p date-end">
-                  Срок исполнения:{" "}
-                  <span className="date-control">{task.date}</span>
-                </p>
+                <Calendar
+                  selectedDate={selectedDate}
+                  onSelectDate={(dateIso) => setSelectedDate(new Date(dateIso))}
+                />
               </div>
             </PopBrowseWrap>
 
@@ -103,19 +188,44 @@ const PopBrowse = ({ task, onClose }) => {
 
             <PopBrowseBtn className="pop-browse__btn-browse">
               <BtnGroup className="btn-group">
-                <BtnBrowseEdit className="btn-browse__edit _btn-bor _hover03">
-                  Редактировать задачу
-                </BtnBrowseEdit>
-                <BtnBrowseDelete className="btn-browse__delete _btn-bor _hover03">
+                {isEditing ? (
+                  <>
+                    <BtnBrowseEdit
+                      className="btn-browse__edit _btn-bor _hover03"
+                      onClick={handleSave}
+                    >
+                      Сохранить
+                    </BtnBrowseEdit>
+                    <BtnBrowseClose
+                      className="btn-browse__close _btn-bg _hover01"
+                      onClick={() => setIsEditing(false)}
+                    >
+                      Отмена
+                    </BtnBrowseClose>
+                  </>
+                ) : (
+                  <BtnBrowseEdit
+                    className="btn-browse__edit _btn-bor _hover03"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    Редактировать задачу
+                  </BtnBrowseEdit>
+                )}
+                <BtnBrowseDelete
+                  className="btn-browse__delete _btn-bor _hover03"
+                  onClick={onDelete}
+                >
                   Удалить задачу
                 </BtnBrowseDelete>
               </BtnGroup>
-              <BtnBrowseClose
-                className="btn-browse__close _btn-bg _hover01"
-                onClick={onClose}
-              >
-                Закрыть
-              </BtnBrowseClose>
+              {!isEditing && (
+                <BtnBrowseClose
+                  className="btn-browse__close _btn-bg _hover01"
+                  onClick={onClose}
+                >
+                  Закрыть
+                </BtnBrowseClose>
+              )}
             </PopBrowseBtn>
           </PopBrowseContent>
         </PopBrowseBlock>

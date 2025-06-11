@@ -21,7 +21,7 @@ const Card = ({ task }) => {
 
   const handleCard = (e) => {
     e.preventDefault();
-    navigate(`/card/${task.id}`);
+    navigate(`/card/${task._id}`);
   };
   return (
     <CardsItem>

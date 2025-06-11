@@ -1,7 +1,7 @@
-import Login from "../../components/Login/Login"
+import Login from "../../components/Login/Login";
 
-const LoginPage = ({setIsAuth}) => {
-  return <Login setIsAuth={setIsAuth}/>
-}
+const LoginPage = () => {
+  return <Login />;
+};
 
-export default LoginPage
+export default LoginPage;

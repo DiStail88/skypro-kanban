@@ -10,7 +10,7 @@ import {
   LoginLink,
   LoginBackground
 } from "./Login.styled.js";
-import { signIn, fetchTasks } from "../../services/api.js"; 
+import { signIn } from "../../services/api.js"; 
 import { AuthContext } from "../../context/AuthContext.js";
 
 const Login = () => {
@@ -24,7 +24,6 @@ const handleLogin = async (e) => {
   try {
     const user = await signIn(form);
     login(user);
-    await fetchTasks(user.token);
     setError('');
     navigate('/');
   } catch (err) {

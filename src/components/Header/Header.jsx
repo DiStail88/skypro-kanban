@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom"
-
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Link } from "react-router-dom";
 import {
   StyledHeader,
   Container,
@@ -16,10 +15,14 @@ import {
   ExitButton,
 } from "./Header.styled.js";
 
+import { AuthContext } from "../../context/AuthContext"; // ✅ проверь путь
+
 const Header = () => {
   const [showUserInfo, setShowUserInfo] = useState(false);
   const popupRef = useRef(null);
   const nameRef = useRef(null);
+
+  const { user } = useContext(AuthContext);
 
   const headerPopup = () => {
     setShowUserInfo((prev) => !prev);
@@ -27,7 +30,7 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (nameRef.current.contains(e.target)) return;
+      if (nameRef.current?.contains(e.target)) return;
       if (popupRef.current && !popupRef.current.contains(e.target)) {
         setShowUserInfo(false);
       }
@@ -41,21 +44,22 @@ const Header = () => {
       <Container>
         <HeaderBlock>
           <Logo>
-            <a href="" target="_self">
+            <a href="/" target="_self">
               <img src="images/logo.png" alt="logo" />
             </a>
           </Logo>
 
           <Logo>
-            <a href="" target="_self">
+            <a href="/" target="_self">
               <img src="images/logo_dark.png" alt="logo" />
             </a>
           </Logo>
 
           <Nav>
             <MainButton className="_hover01" id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+              <Link to="/new">Создать новую задачу</Link>
             </MainButton>
+
             <UserLink
               href="#user-set-target"
               ref={nameRef}
@@ -64,15 +68,12 @@ const Header = () => {
                 headerPopup();
               }}
             >
-              Ivan Ivanov
+              {user?.name || "Пользователь"}
             </UserLink>
-            <UserPopup
-              $visible={showUserInfo}
-              ref={popupRef}
-              id="user-set-target"
-            >
-              <UserName>Ivan Ivanov</UserName>
-              <UserEmail>ivan.ivanov@gmail.com</UserEmail>
+
+            <UserPopup $visible={showUserInfo} ref={popupRef} id="user-set-target">
+              <UserName>{user?.name || "Имя не указано"}</UserName>
+              <UserEmail>{user?.login || "email@example.com"}</UserEmail>
               <ThemeToggle>
                 <p>Темная тема</p>
                 <input type="checkbox" name="checkbox" />

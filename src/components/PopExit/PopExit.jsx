@@ -31,10 +31,10 @@ const PopExit = () => {
   return (
     <PopExitWrapper id="popExit">
       <PopExitContainer>
-        <PopExitBlock className="pop-exit__block">
-          <PopExitTtl className="pop-exit__ttl">Выйти из аккаунта?</PopExitTtl>
+        <PopExitBlock>
+          <PopExitTtl>Выйти из аккаунта?</PopExitTtl>
           <PopExitForm>
-            <PopExitFormGroup className="pop-exit__form-group">
+            <PopExitFormGroup>
               <PopExitYes onClick={handleExitYes}>Да, выйти</PopExitYes>
               <PopExitNo onClick={handleExitNo}>Нет, остаться</PopExitNo>
             </PopExitFormGroup>

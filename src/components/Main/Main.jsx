@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext } from "react";
 import Column from "../Column/Column.jsx";
 import {
   LoadingWrapper,
@@ -8,14 +8,12 @@ import {
   MainContent,
   MainColumn,
 } from "./Main.styled.js";
-import { fetchTasks } from "../../services/api.js";
+import { TaskContext } from "../../context/TaskContext";  
 import { themeClassMap } from "../../utils/themeClassMap.js";
 import { formatDate } from "../../utils/formatDate.js";
 
 const Main = () => {
-  const [loading, setLoading] = useState(true);
-  const [loadedTasks, setLoadedTasks] = useState([]);
-  const [error, setError] = useState(null);
+  const { tasks, loading, error } = useContext(TaskContext);
 
   const statuses = [
     "Без статуса",
@@ -25,31 +23,13 @@ const Main = () => {
     "Готово",
   ];
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
 
-    if (!token) {
-      setError("Вы не авторизованы");
-      setLoading(false);
-      return;
-    }
-
-  fetchTasks(token)
-    .then((tasks) => {
-      const mappedTasks = tasks.map((task) => ({
-        ...task,
-        theme: task.topic || "Research", 
-        themeClass: themeClassMap[task.topic] || themeClassMap["Default"],
-        date: formatDate(task.date),
-      }));
-      setLoadedTasks(mappedTasks);
-      setLoading(false);
-    })
-    .catch((err) => {
-      setError(err.message);
-      setLoading(false);
-    });
-}, []);
+  const mappedTasks = tasks.map((task) => ({
+    ...task,
+    theme: task.topic || "Research",
+    themeClass: themeClassMap[task.topic] || themeClassMap["Default"],
+    date: formatDate(task.date),
+  }));
 
   if (loading) {
     return (
@@ -73,7 +53,7 @@ const Main = () => {
         <MainBlock>
           <MainContent>
             {statuses.map((status) => {
-              const filteredTasks = loadedTasks.filter(
+              const filteredTasks = mappedTasks.filter(
                 (task) => task.status === status
               );
               return (

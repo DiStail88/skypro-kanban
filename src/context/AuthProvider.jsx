@@ -18,10 +18,10 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (loginData) => {
-    setUser(loginData);
-    localStorage.setItem("userInfo", JSON.stringify(loginData));
-  };
+const login = (loginData) => {
+  setUser(loginData);
+  localStorage.setItem("userInfo", JSON.stringify(loginData));
+};
 
   const logout = () => {
     setUser(null);

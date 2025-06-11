@@ -7,7 +7,7 @@ import PopExitPage from "../../pages/PopExitPage/PopExitPage.jsx";
 import PopBrowsePage from "../../pages/PopBrowsePage/PopBrowsePage.jsx";
 import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
 import { AuthContext } from "../../context/AuthContext.js";
-
+import PopNewCardPage from "../../pages/PopNewCardPage/PopNewCardPage.jsx";
 
 function AppRoutes() {
   const { loading } = useContext(AuthContext);
@@ -20,8 +20,9 @@ function AppRoutes() {
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />}>
-          <Route path="/exit" element={<PopExitPage />} />
-          <Route path="/card/:id" element={<PopBrowsePage />} />
+          <Route path="exit" element={<PopExitPage />} />
+          <Route path="card/:id" element={<PopBrowsePage />} />
+          <Route path="new" element={<PopNewCardPage />} />
         </Route>
       </Route>
 

@@ -15,7 +15,7 @@ import {
   ExitButton,
 } from "./Header.styled.js";
 
-import { AuthContext } from "../../context/AuthContext"; // ✅ проверь путь
+import { AuthContext } from "../../context/AuthContext"; 
 
 const Header = () => {
   const [showUserInfo, setShowUserInfo] = useState(false);

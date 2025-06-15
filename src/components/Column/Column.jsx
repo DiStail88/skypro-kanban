@@ -19,3 +19,4 @@ const Column = ({ title, tasks }) => {
 };
 
 export default Column;
+

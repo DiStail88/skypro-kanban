@@ -23,7 +23,7 @@ const handleLogin = async (e) => {
   e.preventDefault();
   try {
     const user = await signIn(form);
-    login(user);
+    login({...user, password: null});
     setError('');
     navigate('/');
   } catch (err) {

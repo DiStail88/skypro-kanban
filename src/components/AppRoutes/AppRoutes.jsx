@@ -1,31 +1,32 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import HomePage from "../../pages/HomePage/HomePage.jsx";
 import LoginPage from "../../pages/LoginPage/LoginPage.jsx";
 import RegisterPage from "../../pages/RegisterPage/RegisterPage.jsx";
 import PopExitPage from "../../pages/PopExitPage/PopExitPage.jsx";
 import PopBrowsePage from "../../pages/PopBrowsePage/PopBrowsePage.jsx";
 import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
+import { AuthContext } from "../../context/AuthContext.js";
+import PopNewCardPage from "../../pages/PopNewCardPage/PopNewCardPage.jsx";
 
 function AppRoutes() {
-  const [isAuth, setIsAuth] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const { loading } = useContext(AuthContext);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 1000);
-    return () => clearTimeout(timeout);
-  }, []);
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <Routes>
-      <Route element={<PrivateRoute isAuth={isAuth} />}>
-        <Route path="/" element={<HomePage loading={loading} />}>
-          <Route path="/exit" element={<PopExitPage setIsAuth={setIsAuth}/>} />
-          <Route path="/card/:id" element={<PopBrowsePage />} />
+      <Route element={<PrivateRoute />}>
+        <Route path="/" element={<HomePage />}>
+          <Route path="exit" element={<PopExitPage />} />
+          <Route path="card/:id" element={<PopBrowsePage />} />
+          <Route path="new" element={<PopNewCardPage />} />
         </Route>
       </Route>
 
-      <Route path="/login" element={<LoginPage setIsAuth={setIsAuth}/>} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/*" element={<h1>Страница не найдена</h1>} />
     </Routes>

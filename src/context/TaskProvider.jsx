@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useCallback, useState, useEffect, useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { AuthContext } from "./AuthContext";
 import {
@@ -14,19 +14,19 @@ const TaskProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadTasks = async () => {
-    if (!user?.token) return;
-    try {
-      setLoading(true);
-      const fetched = await fetchTasks(user.token);
-      setTasks(fetched);
-      setError(null);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+const loadTasks = useCallback(async () => {
+  if (!user?.token) return;
+  try {
+    setLoading(true);
+    const fetched = await fetchTasks(user.token);
+    setTasks(fetched);
+    setError(null);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+}, [user]);
 
   const addTask = async (taskData) => {
     try {
@@ -52,7 +52,6 @@ const TaskProvider = ({ children }) => {
 
     const updatedTask = { ...taskToUpdate, status: newStatus };
 
-    // Оптимистично обновим UI
     setTasks((prev) =>
       prev.map((task) => (task._id === taskId ? updatedTask : task))
     );
@@ -73,9 +72,9 @@ const TaskProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    if (user?.token) loadTasks();
-  }, [user]);
+useEffect(() => {
+  if (user?.token) loadTasks();
+}, [user, loadTasks]);
 
   return (
     <TaskContext.Provider

@@ -6,13 +6,14 @@ export const LoadingWrapper = styled.div`
 
   p {
     font-size: 18px;
-    color: #555;
+    color: ${({ theme }) => theme.text};
   }
 `;
 
 export const MainWrapper = styled.main`
   width: 100%;
-  background-color: #eaeef6;
+  background-color: ${({ theme }) =>
+    theme.background === "#FFFFFF" ? "#eaeef6" : theme.background};
 `;
 
 export const Container = styled.div`

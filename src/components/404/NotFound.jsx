@@ -9,12 +9,15 @@ import {
   NotFoundHead,
   NotFoundP,
   NotFoundImg,
-  NotFoundButton
+  NotFoundButton,
 } from "./NotFound.styled.js";
 
-import { AuthContext } from "../../context/AuthContext";
+import { ThemeContext } from "../../context/ThemeContext.js";
+import { useContext } from "react";
 
 const NotFound = () => {
+    const { theme } = useContext(ThemeContext);
+  const isDark = theme === "dark";
   return (
     <NotFoundWrapper>
       <HeaderNotFound>
@@ -22,13 +25,10 @@ const NotFound = () => {
           <NotFoundBlock>
             <Logo>
               <a href="/" target="_self">
-                <img src="images/logo.png" alt="logo" />
-              </a>
-            </Logo>
-
-            <Logo>
-              <a href="/" target="_self">
-                <img src="images/logo_dark.png" alt="logo" />
+                <img
+                  src={isDark ? "images/logo_dark.png" : "images/logo.png"}
+                  alt="logo"
+                />
               </a>
             </Logo>
           </NotFoundBlock>

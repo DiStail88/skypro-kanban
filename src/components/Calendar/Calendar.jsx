@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {CalendarWrapper, CalendarTitle} from "./Calendar.styled.js";
 
 const DAYS_OF_WEEK = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
@@ -71,8 +72,8 @@ const Calendar = ({ onSelectDate }) => {
   };
 
   return (
-    <div className="calendar">
-      <h3 className="calendar__title">Даты</h3>
+    <CalendarWrapper className="calendar">
+      <CalendarTitle className="calendar__title">Даты</CalendarTitle>
 
       <div className="calendar__header">
         <div className="calendar__month-year">
@@ -137,7 +138,7 @@ const Calendar = ({ onSelectDate }) => {
           "Выберите срок исполнения."
         )}
       </div>
-    </div>
+    </CalendarWrapper>
   );
 };
 

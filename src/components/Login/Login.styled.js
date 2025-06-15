@@ -1,63 +1,58 @@
 import styled from "styled-components";
 
 export const LoginBackground = styled.div`
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-
-    position: relative;
-    background: rgb(234, 238, 246);
-
+  position: relative;
+  background-color: ${({ theme }) => theme.headerBg};
 `;
 
 export const LoginLink = styled.div`
-    display: flex;
-    flex-direction: column;
-    p{
-        color: rgba(148, 166, 190, 0.4);
-        font-family: Roboto;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 150%;
-        letter-spacing: 0.1px;
-        text-align: center;
-    }
+  display: flex;
+  flex-direction: column;
+  p {
+    color: rgba(148, 166, 190, 0.4);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.1px;
+    text-align: center;
+  }
 
-    a{
-        color: rgba(148, 166, 190, 0.4);
-        font-family: Roboto;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 150%;
-        letter-spacing: 0.1px;
-        text-align: center;
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
+  a {
+    color: rgba(148, 166, 190, 0.4);
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 150%;
+    letter-spacing: 0.1px;
+    text-align: center;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 
 export const LoginInputBlock = styled.div`
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 `;
 
-
-
 export const LoginForm = styled.form`
-    width: 248px;
-    height: 164px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
+  width: 248px;
+  height: 164px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
 `;
 
 export const LoginInput = styled.input`
@@ -65,8 +60,8 @@ export const LoginInput = styled.input`
   height: 30px;
 
   padding: 8px 10px;
-
-  color: rgb(148, 166, 190);
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.headerBg};
   font-family: Roboto;
   font-size: 14px;
   font-weight: 400;
@@ -92,48 +87,47 @@ export const LoginInput = styled.input`
 `;
 
 export const LoginButton = styled.button`
-    width: 248px;
-    height: 30px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10;
-    padding: 8px 10px 8px 10px;
+  width: 248px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10;
+  padding: 8px 10px 8px 10px;
 
-    color: rgb(255, 255, 255);
-    font-family: Roboto;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 150%;
-    letter-spacing: -1%;
-    text-align: center;
+  color: rgb(255, 255, 255);
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -1%;
+  text-align: center;
 
-    border-radius: 4px;
-    background: rgb(86, 94, 239);
-    border: none;
-
+  border-radius: 4px;
+  background: rgb(86, 94, 239);
+  border: none;
 `;
 
 export const LoginHead = styled.div`
-    width: 248px;
-    height: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 6px;
-    padding: 0;
+  width: 248px;
+  height: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
 
-    h1 {
-        color: rgb(0, 0, 0);
-        font-family: Roboto;
-        font-size: 20px;
-        font-weight: 700;
-        line-height: 150%;
-        letter-spacing: -0.3px;
-        text-align: center;
-    }
+  h1 {
+    color: ${({ theme }) => theme.text};
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 150%;
+    letter-spacing: -0.3px;
+    text-align: center;
+  }
 `;
 
 export const LoginBlock = styled.div`
@@ -152,7 +146,7 @@ export const LoginBlock = styled.div`
   border-radius: 10px;
 
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-  background: rgb(255, 255, 255);
+  background-color: ${({ theme }) => theme.headerBg};
   z-index: 100;
   transition: height 0.3s ease;
 `;

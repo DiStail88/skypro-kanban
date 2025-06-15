@@ -9,7 +9,9 @@ const Column = ({ title, tasks }) => {
       </ColumnTitle>
       <CardsWrapper>
         {tasks.length > 0 ? (
-          tasks.map((task) => <Card key={task._id} task={task} />)
+          tasks.map((task, index) => (
+            <Card key={task._id} task={task} index={index} />
+          ))
         ) : (
           <EmptyMessage>Нет задач</EmptyMessage>
         )}
@@ -19,4 +21,3 @@ const Column = ({ title, tasks }) => {
 };
 
 export default Column;
-

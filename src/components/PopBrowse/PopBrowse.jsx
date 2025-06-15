@@ -21,6 +21,7 @@ import {
   BtnBrowseEdit,
   BtnBrowseDelete,
   BtnBrowseClose,
+  PopBrowseLabel
 } from "./PopBrowse.styled.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
@@ -154,9 +155,9 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
                 action="#"
               >
                 <FormBrowseBlock className="form-browse__block">
-                  <label htmlFor="textArea01" className="subttl">
+                  <PopBrowseLabel htmlFor="textArea01" className="subttl">
                     Описание задачи
-                  </label>
+                  </PopBrowseLabel>
                   <textarea
                     className="form-browse__area"
                     name="text"

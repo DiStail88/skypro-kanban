@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const HeaderNotFound = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.headerBg};
 `;
 
 export const NotFoundContainer = styled.div`
@@ -35,14 +35,15 @@ export const Logo = styled.div`
 
 export const NotFoundMain = styled.main`
   width: 100%;
-  background-color: #ffffff;
+  height: 100vh;
+  background-color: ${({ theme }) => theme.headerBg};
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 export const NotFoundHead = styled.h1`
-  color: rgb(0, 0, 0);
+  color: ${({ theme }) => theme.text};
   font-family: Roboto;
   font-size: 96px;
   font-weight: 700;
@@ -52,7 +53,7 @@ export const NotFoundHead = styled.h1`
 `;
 
 export const NotFoundP = styled.p`
-  color: rgb(0, 0, 0);
+  color: ${({ theme }) => theme.text};
   font-family: Roboto;
   font-size: 20px;
   font-weight: 700;

@@ -8,6 +8,7 @@ import PopBrowsePage from "../../pages/PopBrowsePage/PopBrowsePage.jsx";
 import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
 import { AuthContext } from "../../context/AuthContext.js";
 import PopNewCardPage from "../../pages/PopNewCardPage/PopNewCardPage.jsx";
+import NotFoundPage from "../../pages/404Page/NotFoundPage.jsx";
 
 function AppRoutes() {
   const { loading } = useContext(AuthContext);
@@ -28,7 +29,7 @@ function AppRoutes() {
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/*" element={<h1>Страница не найдена</h1>} />
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 }

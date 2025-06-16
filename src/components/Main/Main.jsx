@@ -15,7 +15,7 @@ import { formatDate } from "../../utils/formatDate.js";
 import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 const Main = () => {
-  const { tasks, loading, error, updateTaskStatus } = useContext(TaskContext);
+  const { tasks, error, updateTaskStatus } = useContext(TaskContext);
 
   const statuses = [
     "Без статуса",
@@ -37,14 +37,6 @@ const Main = () => {
     if (!destination || destination.droppableId === source.droppableId) return;
     updateTaskStatus(draggableId, destination.droppableId);
   };
-
-  if (loading) {
-    return (
-      <LoadingWrapper>
-        <p>Идет загрузка...</p>
-      </LoadingWrapper>
-    );
-  }
 
   if (error) {
     return (

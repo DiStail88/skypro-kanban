@@ -8,20 +8,33 @@ import {
   RegisterButton,
   RegisterInputBlock,
   RegisterLink,
-  RegisterBackground
+  RegisterBackground,
 } from "./Register.styled.js";
-import { signUp } from "../../services/api.js"; 
+import { signUp } from "../../services/api.js";
 
 const Register = () => {
-  const [form, setForm] = useState({ login: '', name: '', password: '' });
-  const [error, setError] = useState('');
-  const navigate = useNavigate(); 
+  const [form, setForm] = useState({ login: "", name: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const trimmedName = form.name.trim();
+    const trimmedLogin = form.login.trim();
+    const trimmedPassword = form.password.trim();
+
+    if (!trimmedName || !trimmedLogin || !trimmedPassword) {
+      setError("Все поля должны быть заполнены и не содержать только пробелы.");
+      return;
+    }
+
     try {
-      await signUp(form);
-      setError('');
+      await signUp({
+        name: trimmedName,
+        login: trimmedLogin,
+        password: trimmedPassword,
+      });
+      setError("");
       navigate("/login");
     } catch (err) {
       setError(err.message);
@@ -29,7 +42,7 @@ const Register = () => {
   };
 
   const handleChange = (e) => {
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
@@ -69,7 +82,7 @@ const Register = () => {
           <RegisterButton type="submit">Зарегистрироваться</RegisterButton>
           <RegisterLink>
             <p>Уже есть аккаунт?</p>
-            <Link to='/login'>Войдите здесь</Link>
+            <Link to="/login">Войдите здесь</Link>
           </RegisterLink>
         </RegisterForm>
       </RegisterBlock>

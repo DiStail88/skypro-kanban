@@ -20,4 +20,6 @@ export const CardsWrapper = styled.div`
   overflow-y: auto;
 `;
 
-export const EmptyMessage = styled.p``;
+export const EmptyMessage = styled.p`
+  color: ${({ theme }) => theme.text};
+`;

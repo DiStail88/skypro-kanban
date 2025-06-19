@@ -35,7 +35,7 @@ const NotFound = () => {
         </NotFoundContainer>
       </HeaderNotFound>
       <NotFoundMain>
-        <NotFoundImg src="public/cat.png" alt="cat" />
+        <NotFoundImg src="cat.png" alt="cat" />
         <NotFoundHead>404</NotFoundHead>
         <NotFoundP>Страница не найдена</NotFoundP>
         <NotFoundButton className="_hover01" id="btnMainNew">

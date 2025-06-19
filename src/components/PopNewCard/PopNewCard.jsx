@@ -36,9 +36,10 @@ const PopNewCard = () => {
     name: "",
     text: "",
     topic: "Web Design",
-    date: "",
+    date: "", // ISO string or empty
   });
 
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleClose = (e) => {
@@ -57,11 +58,20 @@ const PopNewCard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    const trimmedName = form.name.trim();
+    const trimmedDescription = form.text.trim();
+
+    if (!trimmedName || !trimmedDescription) {
+      setError("Название и описание задачи не могут быть пустыми.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
     try {
       const taskData = {
-        title: form.name.trim() || "Новая задача",
-        description: form.text.trim() || "",
+        title: trimmedName,
+        description: trimmedDescription,
         topic: form.topic || "Research",
         date: form.date || new Date().toISOString(),
         status: "Без статуса",
@@ -70,7 +80,29 @@ const PopNewCard = () => {
       await addTask(taskData);
       navigate("/");
     } catch (err) {
-      alert("Ошибка при добавлении задачи: " + err.message);
+      setError("Не удалось создать задачу. Попробуйте ещё раз. " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Обработчик выбора даты в календаре
+  const handleDateSelect = (date) => {
+    if (!date) {
+      setForm((prev) => ({ ...prev, date: "" }));
+      return;
+    }
+
+    if (date instanceof Date && !isNaN(date.getTime())) {
+      setForm((prev) => ({ ...prev, date: date.toISOString() }));
+    } else {
+      // Попытка преобразовать в дату, если пришло что-то иное
+      const parsed = new Date(date);
+      if (!isNaN(parsed.getTime())) {
+        setForm((prev) => ({ ...prev, date: parsed.toISOString() }));
+      } else {
+        setForm((prev) => ({ ...prev, date: "" }));
+      }
     }
   };
 
@@ -79,21 +111,12 @@ const PopNewCard = () => {
       <PopNewCardContainer className="pop-new-card__container">
         <PopNewCardBlock className="pop-new-card__block">
           <PopNewCardContent className="pop-new-card__content">
-            <PopNewCardTtl className="pop-new-card__ttl">
-              Создание задачи
-            </PopNewCardTtl>
-            <PopNewCardClose
-              href="#"
-              onClick={handleClose}
-              className="pop-new-card__close"
-            >
+            <PopNewCardTtl className="pop-new-card__ttl">Создание задачи</PopNewCardTtl>
+            <PopNewCardClose href="#" onClick={handleClose} className="pop-new-card__close">
               &#10006;
             </PopNewCardClose>
             <PopNewCardWrap className="pop-new-card__wrap">
-              <PopNewCardForm
-                className="pop-new-card__form form-new"
-                id="formNewCard"
-              >
+              <PopNewCardForm className="pop-new-card__form form-new" id="formNewCard">
                 <FormNewBlock className="form-new__block">
                   <FormNewLabel htmlFor="formTitle" className="subttl">
                     Название задачи
@@ -124,38 +147,28 @@ const PopNewCard = () => {
                   />
                 </FormNewBlock>
               </PopNewCardForm>
-              <Calendar
-                onSelectDate={(date) => setForm((prev) => ({ ...prev, date }))}
-              />
+              <Calendar selectedDate={form.date ? new Date(form.date) : null} onSelectDate={handleDateSelect} />
             </PopNewCardWrap>
 
             <PopNewCardCategories className="pop-new-card__categories categories">
-              <CategoriesP className="categories__p subttl">
-                Категория
-              </CategoriesP>
+              <CategoriesP className="categories__p subttl">Категория</CategoriesP>
               <CategoriesThemes className="categories__themes">
                 <CategoriesThemeOrange
-                  className={`categories__theme _orange ${
-                    form.topic === "Web Design" ? "_active-category" : ""
-                  }`}
+                  className={`categories__theme _orange ${form.topic === "Web Design" ? "_active-category" : ""}`}
                   onClick={() => handleSelectCategory("Web Design")}
                 >
                   <Orange>Web Design</Orange>
                 </CategoriesThemeOrange>
 
                 <CategoriesThemeGreen
-                  className={`categories__theme _green ${
-                    form.topic === "Research" ? "_active-category" : ""
-                  }`}
+                  className={`categories__theme _green ${form.topic === "Research" ? "_active-category" : ""}`}
                   onClick={() => handleSelectCategory("Research")}
                 >
                   <Green>Research</Green>
                 </CategoriesThemeGreen>
 
                 <CategoriesThemePurple
-                  className={`categories__theme _purple ${
-                    form.topic === "Copywriting" ? "_active-category" : ""
-                  }`}
+                  className={`categories__theme _purple ${form.topic === "Copywriting" ? "_active-category" : ""}`}
                   onClick={() => handleSelectCategory("Copywriting")}
                 >
                   <Purple>Copywriting</Purple>
@@ -163,12 +176,13 @@ const PopNewCard = () => {
               </CategoriesThemes>
             </PopNewCardCategories>
 
-            <PopNewCardButton
-              className="form-new__create _hover01"
-              id="btnCreate"
-              onClick={handleSubmit}
-              disabled={loading} 
-            >
+            {error && (
+              <p style={{ color: "red", marginTop: "10px", marginBottom: "10px" }}>
+                {error}
+              </p>
+            )}
+
+            <PopNewCardButton className="form-new__create _hover01" id="btnCreate" onClick={handleSubmit} disabled={loading}>
               {loading ? "Загрузка..." : "Создать задачу"}
             </PopNewCardButton>
           </PopNewCardContent>

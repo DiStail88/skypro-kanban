@@ -21,7 +21,7 @@ import {
   BtnBrowseEdit,
   BtnBrowseDelete,
   BtnBrowseClose,
-  PopBrowseLabel
+  PopBrowseLabel,
 } from "./PopBrowse.styled.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
@@ -34,6 +34,7 @@ const statuses = [
 ];
 
 const PopBrowse = ({ task, onClose, onDelete }) => {
+  const [error, setError] = useState("");
   const { updateTask } = useContext(TaskContext);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -54,18 +55,34 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
 
   if (!task) return null;
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    const trimmedTitle = title.trim();
+    const trimmedDescription = description.trim();
+
+    if (!trimmedTitle || !trimmedDescription) {
+      setError("Название и описание задачи не могут быть пустыми.");
+      return;
+    }
+
     const updatedTask = {
       ...task,
-      title,
-      description,
+      title: trimmedTitle,
+      description: trimmedDescription,
       status,
       date: selectedDate ? selectedDate.toISOString() : null,
     };
-    updateTask(task._id, updatedTask);
-    setIsEditing(false);
-  };
 
+    try {
+      await updateTask(task._id, updatedTask);
+      setIsEditing(false);
+      setError("");
+    } catch (err) {
+      setError(
+        "Не удалось сохранить изменения. Пожалуйста, попробуйте ещё раз." +
+          err.message
+      );
+    }
+  };
   return (
     <PopBrowseWrapper className="pop-browse" id="popBrowse">
       <PopBrowseContainer className="pop-browse__container">
@@ -95,7 +112,20 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
                   }}
                 />
               ) : (
-                <PopBrowseTtl className="pop-browse__ttl" style={{ flex: 1 }}>
+                <PopBrowseTtl
+                  className="pop-browse__ttl"
+                  style={{
+                    flex: 1,
+                    marginRight: "15px",
+                    border: "none",
+                    outline: "none",
+                    fontSize: "20px",
+                    fontWeight: "700",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis", // при необходимости
+                    whiteSpace: "nowrap", // или normal для переноса
+                  }}
+                >
                   {title}
                 </PopBrowseTtl>
               )}
@@ -139,7 +169,9 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
                   {statuses.map((s) => (
                     <div
                       key={s}
-                      className={`status__theme ${status === s ? "_gray" : "_hide"}`}
+                      className={`status__theme ${
+                        status === s ? "_gray" : "_hide"
+                      }`}
                     >
                       <p className={status === s ? "_gray" : ""}>{s}</p>
                     </div>
@@ -179,7 +211,9 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
             </PopBrowseWrap>
 
             <ThemeDownCategories className="theme-down__categories theme-down">
-              <CategoriesP className="categories__p subttl">Категория</CategoriesP>
+              <CategoriesP className="categories__p subttl">
+                Категория
+              </CategoriesP>
               <div
                 className={`categories__theme ${task.themeClass} _active-category`}
               >
@@ -199,7 +233,14 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
                     </BtnBrowseEdit>
                     <BtnBrowseClose
                       className="btn-browse__close _btn-bg _hover01"
-                      onClick={() => setIsEditing(false)}
+                      onClick={() => {
+                        setTitle(task.title);
+                        setDescription(task.description || "");
+                        setStatus(task.status || "Без статуса");
+                        setSelectedDate(task.date ? new Date(task.date) : null);
+                        setIsEditing(false);
+                        setError("");
+                      }}
                     >
                       Отмена
                     </BtnBrowseClose>
@@ -226,6 +267,9 @@ const PopBrowse = ({ task, onClose, onDelete }) => {
                 >
                   Закрыть
                 </BtnBrowseClose>
+              )}
+              {error && (
+                <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>
               )}
             </PopBrowseBtn>
           </PopBrowseContent>

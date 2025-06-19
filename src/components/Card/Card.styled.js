@@ -92,11 +92,17 @@ export const CardContent = styled.div`
 `;
 
 export const CardTitle = styled.h3`
+  width: 194px;
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
   color: #000000;
   margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const CardDate = styled.div`

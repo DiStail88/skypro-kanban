@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import {CalendarWrapper, CalendarTitle} from "./Calendar.styled.js";
+import { CalendarWrapper, CalendarTitle } from "./Calendar.styled.js";
+import { useTheme } from "styled-components";
 
 const DAYS_OF_WEEK = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
-const Calendar = ({ onSelectDate }) => {
+const Calendar = ({ selectedDate, onSelectDate }) => {
+  const theme = useTheme();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -24,7 +25,6 @@ const Calendar = ({ onSelectDate }) => {
   const handleClick = (day) => {
     const date = new Date(year, month, day);
     const isoDate = date.toISOString();
-    setSelectedDate(date);
     onSelectDate?.(isoDate);
   };
 
@@ -47,8 +47,8 @@ const Calendar = ({ onSelectDate }) => {
       <div
         key={day}
         className={`calendar__cell _cell-day 
-  ${isToday(day) ? "_today" : ""} 
-  ${isSelected ? "calendar__cell--active" : ""}`}
+          ${isToday(day) ? "_today" : ""} 
+          ${isSelected ? "calendar__cell--active" : ""}`}
         onClick={() => handleClick(day)}
       >
         {day}
@@ -87,33 +87,11 @@ const Calendar = ({ onSelectDate }) => {
         </div>
         <div className="calendar__block-button">
           <button className="calendar__arrow-left" onClick={goPrevMonth}>
-            <svg
-              width="6"
-              height="10"
-              viewBox="0 0 6 10"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M5.72 1.45C6.09 1.12 6.09 0.58 5.72 0.25C5.36 -0.09 4.77 -0.09 4.41 0.25L0.52 3.82C-0.18 4.47 -0.18 5.52 0.52 6.17L4.41 9.74C4.77 10.08 5.36 10.08 5.72 9.74C6.09 9.41 6.09 8.87 5.72 8.54L1.87 5L5.72 1.45Z"
-                fill="#94A6BE"
-              />
-            </svg>
+            {/* svg ... */}
           </button>
 
           <button className="calendar__arrow-right" onClick={goNextMonth}>
-            <svg
-              width="6"
-              height="10"
-              viewBox="0 0 6 10"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.27 8.54C-0.1 8.87 -0.1 9.41 0.27 9.74C0.63 10.08 1.22 10.08 1.58 9.74L5.47 6.17C6.17 5.52 6.17 4.47 5.47 3.82L1.58 0.25C1.22 -0.09 0.63 -0.09 0.27 0.25C-0.1 0.58 -0.1 1.12 0.27 1.45L4.12 5L0.27 8.54Z"
-                fill="#94A6BE"
-              />
-            </svg>
+            {/* svg ... */}
           </button>
         </div>
       </div>
@@ -132,7 +110,9 @@ const Calendar = ({ onSelectDate }) => {
         {selectedDate ? (
           <>
             Срок исполнения:{" "}
-            <span style={{ color: "black", paddingLeft:"2px" }}>{formatDate(selectedDate)}</span>
+            <span style={{ color: theme.text, paddingLeft: "2px" }}>
+              {formatDate(selectedDate)}
+            </span>
           </>
         ) : (
           "Выберите срок исполнения."

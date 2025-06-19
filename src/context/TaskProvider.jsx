@@ -14,19 +14,19 @@ const TaskProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-const loadTasks = useCallback(async () => {
-  if (!user?.token) return;
-  try {
-    setLoading(true);
-    const fetched = await fetchTasks(user.token);
-    setTasks(fetched);
-    setError(null);
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setLoading(false);
-  }
-}, [user]);
+  const loadTasks = useCallback(async () => {
+    if (!user?.token) return;
+    try {
+      setLoading(true);
+      const fetched = await fetchTasks(user.token);
+      setTasks(fetched);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [user]);
 
   const addTask = async (taskData) => {
     try {
@@ -72,9 +72,11 @@ const loadTasks = useCallback(async () => {
     }
   };
 
-useEffect(() => {
-  if (user?.token) loadTasks();
-}, [user, loadTasks]);
+  const clearTasks = () => setTasks([]); // <-- вот эта строка
+
+  useEffect(() => {
+    if (user?.token) loadTasks();
+  }, [user, loadTasks]);
 
   return (
     <TaskContext.Provider
@@ -85,8 +87,9 @@ useEffect(() => {
         fetchTasks: loadTasks,
         addTask,
         updateTask,
-        updateTaskStatus, 
+        updateTaskStatus,
         deleteTask,
+        clearTasks, // <-- добавлено
       }}
     >
       {children}

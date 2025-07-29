@@ -10,7 +10,7 @@ export const RegisterBackground = styled.div`
 
 
     position: relative;
-    background: rgb(234, 238, 246);
+    background-color: ${({ theme }) => theme.headerBg};
 
 `;
 
@@ -66,8 +66,8 @@ export const RegisterInput = styled.input`
   height: 30px;
 
   padding: 8px 10px;
-
-  color: rgb(148, 166, 190);
+  color: ${({ theme }) => theme.text};
+  background-color: ${({ theme }) => theme.headerBg};
   font-family: Roboto;
   font-size: 14px;
   font-weight: 400;
@@ -127,7 +127,7 @@ export const RegisterHead = styled.div`
     padding: 0;
 
     h1 {
-        color: rgb(0, 0, 0);
+        color: ${({ theme }) => theme.text};
         font-family: Roboto;
         font-size: 20px;
         font-weight: 700;
@@ -153,6 +153,6 @@ export const RegisterBlock = styled.div`
   border-radius: 10px;
 
   box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
-  background: rgb(255, 255, 255);
+  background-color: ${({ theme }) => theme.headerBg};
   transition: height 0.3s ease;
 `;

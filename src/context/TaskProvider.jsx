@@ -1,7 +1,6 @@
-import { useState, useEffect, useContext } from "react";
+import { useCallback, useState, useEffect, useContext } from "react";
 import { TaskContext } from "./TaskContext";
 import { AuthContext } from "./AuthContext";
-
 import {
   fetchTasks,
   addTask as apiAddTask,
@@ -15,7 +14,7 @@ const TaskProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const loadTasks = async () => {
+  const loadTasks = useCallback(async () => {
     if (!user?.token) return;
     try {
       setLoading(true);
@@ -27,7 +26,7 @@ const TaskProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   const addTask = async (taskData) => {
     try {
@@ -47,18 +46,37 @@ const TaskProvider = ({ children }) => {
     }
   };
 
+  const updateTaskStatus = async (taskId, newStatus) => {
+    const taskToUpdate = tasks.find((task) => task._id === taskId);
+    if (!taskToUpdate) return;
+
+    const updatedTask = { ...taskToUpdate, status: newStatus };
+
+    setTasks((prev) =>
+      prev.map((task) => (task._id === taskId ? updatedTask : task))
+    );
+
+    try {
+      await apiUpdateTask(taskId, updatedTask, user.token);
+    } catch (err) {
+      console.error("Ошибка при обновлении статуса:", err);
+    }
+  };
+
   const deleteTask = async (id) => {
     try {
-      await apiDeleteTask(id, user.token); 
-      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id)); 
+      await apiDeleteTask(id, user.token);
+      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
     } catch (err) {
       setError(err.message);
     }
   };
 
+  const clearTasks = () => setTasks([]); // <-- вот эта строка
+
   useEffect(() => {
     if (user?.token) loadTasks();
-  }, [user]);
+  }, [user, loadTasks]);
 
   return (
     <TaskContext.Provider
@@ -69,7 +87,9 @@ const TaskProvider = ({ children }) => {
         fetchTasks: loadTasks,
         addTask,
         updateTask,
+        updateTaskStatus,
         deleteTask,
+        clearTasks, // <-- добавлено
       }}
     >
       {children}

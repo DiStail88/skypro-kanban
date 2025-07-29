@@ -8,12 +8,14 @@ import {
   MainContent,
   MainColumn,
 } from "./Main.styled.js";
-import { TaskContext } from "../../context/TaskContext";  
+import { TaskContext } from "../../context/TaskContext";
 import { themeClassMap } from "../../utils/themeClassMap.js";
 import { formatDate } from "../../utils/formatDate.js";
 
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
+
 const Main = () => {
-  const { tasks, loading, error } = useContext(TaskContext);
+  const { tasks, error, updateTaskStatus } = useContext(TaskContext);
 
   const statuses = [
     "Без статуса",
@@ -23,7 +25,6 @@ const Main = () => {
     "Готово",
   ];
 
-
   const mappedTasks = tasks.map((task) => ({
     ...task,
     theme: task.topic || "Research",
@@ -31,13 +32,11 @@ const Main = () => {
     date: formatDate(task.date),
   }));
 
-  if (loading) {
-    return (
-      <LoadingWrapper>
-        <p>Идет загрузка...</p>
-      </LoadingWrapper>
-    );
-  }
+  const onDragEnd = (result) => {
+    const { destination, source, draggableId } = result;
+    if (!destination || destination.droppableId === source.droppableId) return;
+    updateTaskStatus(draggableId, destination.droppableId);
+  };
 
   if (error) {
     return (
@@ -51,18 +50,29 @@ const Main = () => {
     <MainWrapper>
       <Container>
         <MainBlock>
-          <MainContent>
-            {statuses.map((status) => {
-              const filteredTasks = mappedTasks.filter(
-                (task) => task.status === status
-              );
-              return (
-                <MainColumn key={status}>
-                  <Column title={status} tasks={filteredTasks} />
-                </MainColumn>
-              );
-            })}
-          </MainContent>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <MainContent>
+              {statuses.map((status) => {
+                const filteredTasks = mappedTasks.filter(
+                  (task) => task.status === status
+                );
+
+                return (
+                  <Droppable droppableId={status} key={status}>
+                    {(provided) => (
+                      <MainColumn
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        <Column title={status} tasks={filteredTasks} />
+                        {provided.placeholder}
+                      </MainColumn>
+                    )}
+                  </Droppable>
+                );
+              })}
+            </MainContent>
+          </DragDropContext>
         </MainBlock>
       </Container>
     </MainWrapper>

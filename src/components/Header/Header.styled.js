@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const StyledHeader = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.headerBg};
 `;
 
 export const Container = styled.div`
@@ -105,7 +105,7 @@ export const UserPopup = styled.div`
   height: 205px;
   border-radius: 10px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  background: #fff;
+  background-color: ${({ theme }) => theme.headerBg};
   box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
   padding: 34px;
   text-align: center;
@@ -114,7 +114,7 @@ export const UserPopup = styled.div`
 `;
 
 export const UserName = styled.p`
-  color: #000;
+  color: ${({ theme }) => theme.text};
   font-size: 14px;
   font-weight: 500;
   line-height: 21px;
@@ -137,7 +137,7 @@ export const ThemeToggle = styled.div`
   margin-bottom: 30px;
 
   p {
-    color: #000;
+    color: ${({ theme }) => theme.text};
     font-size: 14px;
     line-height: 21px;
     letter-spacing: -0.14px;

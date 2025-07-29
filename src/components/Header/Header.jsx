@@ -15,9 +15,13 @@ import {
   ExitButton,
 } from "./Header.styled.js";
 
-import { AuthContext } from "../../context/AuthContext"; 
+import { AuthContext } from "../../context/AuthContext";
+import { ThemeContext } from "../../context/ThemeContext";
+
 
 const Header = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const isDark = theme === "dark";
   const [showUserInfo, setShowUserInfo] = useState(false);
   const popupRef = useRef(null);
   const nameRef = useRef(null);
@@ -45,13 +49,10 @@ const Header = () => {
         <HeaderBlock>
           <Logo>
             <a href="/" target="_self">
-              <img src="images/logo.png" alt="logo" />
-            </a>
-          </Logo>
-
-          <Logo>
-            <a href="/" target="_self">
-              <img src="images/logo_dark.png" alt="logo" />
+              <img
+                src={isDark ? "images/logo_dark.png" : "images/logo.png"}
+                alt="logo"
+              />
             </a>
           </Logo>
 
@@ -71,12 +72,21 @@ const Header = () => {
               {user?.name || "Пользователь"}
             </UserLink>
 
-            <UserPopup $visible={showUserInfo} ref={popupRef} id="user-set-target">
+            <UserPopup
+              $visible={showUserInfo}
+              ref={popupRef}
+              id="user-set-target"
+            >
               <UserName>{user?.name || "Имя не указано"}</UserName>
               <UserEmail>{user?.login || "email@example.com"}</UserEmail>
               <ThemeToggle>
                 <p>Темная тема</p>
-                <input type="checkbox" name="checkbox" />
+                <input
+                  type="checkbox"
+                  name="checkbox"
+                  checked={isDark}
+                  onChange={toggleTheme}
+                />
               </ThemeToggle>
               <ExitButton className="_hover03">
                 <Link to="/exit">Выйти</Link>

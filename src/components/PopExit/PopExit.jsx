@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   PopExitWrapper,
@@ -9,17 +10,18 @@ import {
   PopExitNo,
   PopExitForm,
 } from "./PopExit.styled.js";
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext.js";
-
+import { TaskContext } from "../../context/TaskContext.js"; 
 
 const PopExit = () => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
+  const { clearTasks } = useContext(TaskContext); 
 
   const handleExitYes = (e) => {
     e.preventDefault();
-    logout();
+    clearTasks(); 
+    logout();   
     navigate("/login");
   };
 
